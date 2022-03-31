@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 import frc.robot.Constants;
-import frc.robot.PIDF;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -38,7 +37,7 @@ public class Flywheel extends Subsystem{
         mFlywheelMaster.config_kI(Constants.kSlotIdx, Constants.kFlywheelKi, Constants.kFlywheelTimeoutMs);
         mFlywheelMaster.config_kD(Constants.kSlotIdx, Constants.kFlywheelKd, Constants.kFlywheelTimeoutMs);
         mFlywheelMaster.config_kF(Constants.kSlotIdx, Constants.kFlywheelKf, Constants.kFlywheelTimeoutMs);
-    }
+    }   
 
     public void readPeriodicInput(){
         mPeriodicIO.velocity_ticks = mFlywheelEncoder.getSelectedSensorPosition(0);
@@ -46,6 +45,10 @@ public class Flywheel extends Subsystem{
 
     public void writePeriodicOutput(){
         mFlywheelMaster.set(ControlMode.Velocity, mPeriodicIO.velocity_demand);
+    }
+
+    public double getRPM() {
+        return mPeriodicIO.velocity_ticks * 600;
     }
 
     public void setRPM(double rpm){
